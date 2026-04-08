@@ -1,0 +1,128 @@
+<template>
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:world" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title slds-text-heading_small">Your Timezone</h2>
+                </div>
+            </div>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+
+            <!-- Confirm Step -->
+            <template lwc:if={isConfirmStep}>
+                <p class="slds-text-body_regular slds-m-bottom_medium">
+                    We detected this timezone from your browser. Is this correct?
+                </p>
+                <div class="slds-box slds-m-bottom_medium">
+                    <p class="slds-text-title_caps slds-m-bottom_xx-small">Timezone</p>
+                    <p class="slds-text-heading_small slds-m-bottom_small">{timezoneIana}</p>
+                    <p class="slds-text-title_caps slds-m-bottom_xx-small">Local Time</p>
+                    <p class="slds-text-body_regular">{currentLocalDateTime}</p>
+                </div>
+                <div class="slds-button-group-row">
+                    <lightning-button
+                        variant="brand"
+                        label="Confirm"
+                        onclick={handleConfirmYes}
+                    ></lightning-button>
+                    <lightning-button
+                        variant="neutral"
+                        label="Change"
+                        onclick={handleConfirmNo}
+                        class="slds-m-left_x-small"
+                    ></lightning-button>
+                </div>
+            </template>
+
+            <!-- Alternate Step -->
+            <template lwc:if={isAlternateStep}>
+                <p class="slds-text-body_regular slds-m-bottom_medium">
+                    How would you like to set your timezone?
+                </p>
+                <lightning-radio-group
+                    name="alternateMode"
+                    label="Choose an option"
+                    options={alternateOptions}
+                    value={alternateMode}
+                    onchange={handleAlternateChange}
+                    type="radio"
+                    class="slds-m-bottom_medium"
+                ></lightning-radio-group>
+
+                <template lwc:if={showAddressPanel}>
+                    <div class="slds-box slds-m-bottom_medium">
+                        <lightning-input-address
+                            show-address-lookup
+                            address-label="Address"
+                            street-label="Street"
+                            city-label="City"
+                            country-label="Country"
+                            province-label="State / Province"
+                            postal-code-label="Postal Code"
+                            street={addressStreet}
+                            city={addressCity}
+                            country={addressCountry}
+                            province={addressProvince}
+                            postal-code={addressPostalCode}
+                            onchange={handleAddressCompoundChange}
+                        ></lightning-input-address>
+                        <template lwc:if={addressError}>
+                            <p class="slds-text-color_error slds-m-top_x-small" role="alert">{addressError}</p>
+                        </template>
+                        <lightning-button
+                            variant="brand"
+                            label="Look up timezone"
+                            onclick={handleAddressLookup}
+                            disabled={addressLoading}
+                            class="slds-m-top_small"
+                        ></lightning-button>
+                    </div>
+                </template>
+
+                <template lwc:if={showDropdownPanel}>
+                    <div class="slds-box">
+                        <lightning-combobox
+                            name="timezone"
+                            label="Select timezone"
+                            value={dropdownValue}
+                            placeholder="Choose a timezone"
+                            options={timezoneOptions}
+                            onchange={handleDropdownChange}
+                            dropdown-alignment="auto"
+                        ></lightning-combobox>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Done Step -->
+            <template lwc:if={isDoneStep}>
+                <div class="slds-scoped-notification slds-scoped-notification_light slds-theme_success slds-m-bottom_medium" role="status">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="utility:success" size="small" variant="inverse"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <p>Timezone confirmed.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-box slds-m-bottom_medium">
+                    <p class="slds-text-title_caps slds-m-bottom_xx-small">Timezone</p>
+                    <p class="slds-text-heading_small slds-m-bottom_small">{timezoneIana}</p>
+                    <p class="slds-text-title_caps slds-m-bottom_xx-small">Local Time</p>
+                    <p class="slds-text-body_regular">{currentLocalDateTime}</p>
+                </div>
+                <lightning-button
+                    variant="neutral"
+                    label="Change"
+                    onclick={handleConfirmNo}
+                ></lightning-button>
+            </template>
+
+        </div>
+    </div>
+</template>

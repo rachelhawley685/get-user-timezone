@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property
+                name="timezoneIana"
+                type="String"
+                role="outputOnly"
+                label="Timezone (IANA)"
+                description="Browser timezone in IANA format."
+            />
+            <property
+                name="utcOffsetMinutes"
+                type="Integer"
+                role="outputOnly"
+                label="UTC Offset Minutes"
+                description="UTC offset in minutes based on browser locale."
+            />
+            <property
+                name="currentLocalDateTime"
+                type="String"
+                role="outputOnly"
+                label="Current Local Date Time"
+                description="Current local date/time from browser in ISO-like format."
+            />
+            <property
+                name="currentUtcDateTime"
+                type="String"
+                role="outputOnly"
+                label="Current UTC Date Time"
+                description="Current UTC timestamp from browser in ISO format."
+            />
+            <property
+                name="captureOnLoad"
+                type="Boolean"
+                role="inputOnly"
+                default="true"
+                label="Capture on Load"
+                description="Automatically capture timezone when this screen loads."
+            />
+            <property
+                name="inputTimezoneIana"
+                type="String"
+                role="inputOnly"
+                label="Input Timezone (IANA)"
+                description="Optional reactive input timezone from another component/field on the same screen."
+            />
+            <property
+                name="apiKey"
+                type="String"
+                role="inputOnly"
+                label="Google API Key (Optional)"
+                description="Optional. Pass only if address lookup fails without a query key; prefer Named Credential."
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

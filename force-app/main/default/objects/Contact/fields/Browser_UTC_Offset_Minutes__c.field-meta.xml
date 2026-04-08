@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Browser_UTC_Offset_Minutes__c</fullName>
+    <description>UTC offset in minutes from browser locale at capture time.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>UTC offset in minutes based on browser timezone settings.</inlineHelpText>
+    <label>Browser UTC Offset Minutes</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
