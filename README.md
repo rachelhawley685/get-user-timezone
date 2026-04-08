@@ -28,32 +28,35 @@ A Salesforce Lightning Web Component that detects a user's timezone from their b
 
 ## Installation
 
-### Prerequisites
+### Option A: Install via URL (Recommended)
+
+Click the link below and log into your Salesforce org:
+
+**[Install Get User Timezone](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tHu000003yhPUIAY)**
+
+1. Choose **Install for All Users**
+2. Click **Install**
+3. Continue to **Post-Install Setup** below
+
+### Option B: Deploy from Source
+
+If you prefer to deploy from source (e.g., to customize before installing):
+
+#### Prerequisites
 
 - Salesforce CLI (`sf`) installed — [install guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm)
 - A Salesforce demo org (sandbox, scratch org, or trial)
-- A Google Maps API key with **Geocoding API** and **Time Zone API** enabled
-
-### Step 1: Clone the Repo
 
 ```bash
-git clone https://github.com/asvirani/get-user-timezone.git
+git clone https://github.com/rachelhawley685/get-user-timezone.git
 cd get-user-timezone
-```
-
-### Step 2: Authorize Your Org
-
-```bash
 sf org login web --alias my-demo-org --set-default
-```
-
-### Step 3: Deploy the Metadata
-
-```bash
 sf project deploy start --source-dir force-app --test-level NoTestRun
 ```
 
-### Step 4: Add Your Google Maps API Key
+## Post-Install Setup
+
+### Step 1: Add Your Google Maps API Key
 
 The component uses a Custom Metadata Type to store the API key server-side.
 
