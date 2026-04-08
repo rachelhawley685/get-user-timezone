@@ -76,9 +76,10 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <description>update contact timezone  on create or when address changes</description>
     <environments>Default</environments>
-    <interviewLabel>Lookup Timezone From Coordinates {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Lookup Timezone From Coordinates</label>
+    <interviewLabel>SFS Demo Lab: Get Contact Timezone {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFS Demo Lab: Get Contact Timezone</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -108,7 +109,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>inContactId</elementReference>
+                <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -140,11 +141,32 @@
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <connector>
-            <targetReference>Lookup_Timezone_from_Coordinates</targetReference>
-        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>MailingLatitude</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>MailingLongitude</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <connector>
+                <targetReference>Lookup_Timezone_from_Coordinates</targetReference>
+            </connector>
+            <pathType>AsyncAfterCommit</pathType>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>HttpStatusCode</name>
         <dataType>String</dataType>
