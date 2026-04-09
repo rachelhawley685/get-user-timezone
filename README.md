@@ -37,11 +37,12 @@ A Salesforce package that detects and manages user timezones. Includes a browser
 
 Click the link below and log into your Salesforce org:
 
-**[Install Get User Timezone](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tHu000003yhPUIAY)**
+**[Install Get User Timezone](https://login.salesforce.com/packaging/installPackage.apexp?p0=04tHu000003yhThIAI)**
 
 1. Choose **Install for All Users**
-2. Click **Install**
-3. Continue to **Post-Install Setup** below
+2. Under **Advanced Options**, change the Apex compile option to **Compile only this package's Apex** (do NOT use the default "Recompile all Apex" — orgs with Salesforce Maps, Marketing Cloud, or other managed packages may have pre-existing Apex compile errors that will cause the install to fail)
+3. Click **Install**
+4. Continue to **Post-Install Setup** below
 
 ### Option B: Deploy from Source
 
@@ -153,3 +154,4 @@ The **SFS Demo Lab: Get Contact Timezone** record-triggered flow runs automatica
 | `REQUEST_DENIED` | Google API key missing or APIs not enabled | Add your key to Google Maps Config (Step 1) and enable both Geocoding API and Time Zone API in Google Cloud Console |
 | `Geocoding status: ZERO_RESULTS` | Address not recognized by Google | Try a more specific address with city and country |
 | Timezone not updating on address change | Record-triggered flow not activated | Activate the **SFS Demo Lab: Get Contact Timezone** flow in Setup |
+| `Apex compile failure: Invalid type: MetadataService.Read...` during install | Another installed managed package (e.g., Salesforce Maps, Marketing Cloud) contains an outdated `MetadataServiceTest` class that fails to compile | In the installer, change the Apex compile option to **Compile only this package's Apex** instead of "Recompile all Apex" |
