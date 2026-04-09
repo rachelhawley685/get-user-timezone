@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Lookup_Timezone_from_Coordinates</name>
-        <label>Lookup Timezone from Coordinates</label>
+        <name>Lookup_Timezone_from_Address</name>
+        <label>Lookup Timezone from Address</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <actionName>TimezoneFromCoordinatesFlowAction</actionName>
+        <actionName>TimezoneFromAddressFlowAction</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Lookup_Succeeded</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>epochSeconds</name>
+            <name>address</name>
             <value>
-                <elementReference>inEpochSeconds</elementReference>
+                <elementReference>varFullAddress</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>latitude</name>
-            <value>
-                <elementReference>inLatitude</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>longitude</name>
-            <value>
-                <elementReference>InLongitude</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>TimezoneFromCoordinatesFlowAction</nameSegment>
+        <nameSegment>TimezoneFromAddressFlowAction</nameSegment>
         <offset>0</offset>
         <outputParameters>
             <assignToReference>HttpStatusCode</assignToReference>
@@ -50,6 +38,10 @@
         <outputParameters>
             <assignToReference>varAddressTimezoneIana</assignToReference>
             <name>timezoneIana</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>varAddressUtcOffsetSeconds</assignToReference>
+            <name>utcOffsetSeconds</name>
         </outputParameters>
     </actionCalls>
     <apiVersion>66.0</apiVersion>
@@ -76,8 +68,19 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>update contact timezone  on create or when address changes</description>
+    <description>Update contact timezone on create or when mailing address changes</description>
     <environments>Default</environments>
+    <formulas>
+        <name>varFullAddress</name>
+        <dataType>String</dataType>
+        <expression>
+            IF(NOT(ISBLANK({!$Record.MailingStreet})), {!$Record.MailingStreet} &amp; ", ", "") &amp;
+            IF(NOT(ISBLANK({!$Record.MailingCity})), {!$Record.MailingCity} &amp; ", ", "") &amp;
+            IF(NOT(ISBLANK({!$Record.MailingState})), {!$Record.MailingState} &amp; " ", "") &amp;
+            IF(NOT(ISBLANK({!$Record.MailingPostalCode})), {!$Record.MailingPostalCode} &amp; ", ", "") &amp;
+            IF(NOT(ISBLANK({!$Record.MailingCountry})), {!$Record.MailingCountry}, "")
+        </expression>
+    </formulas>
     <interviewLabel>SFS Demo Lab: Get Contact Timezone {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SFS Demo Lab: Get Contact Timezone</label>
     <processMetadataValues>
@@ -143,14 +146,35 @@
         <locationY>0</locationY>
         <filterLogic>or</filterLogic>
         <filters>
-            <field>MailingLatitude</field>
+            <field>MailingStreet</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
         <filters>
-            <field>MailingLongitude</field>
+            <field>MailingCity</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>MailingState</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>MailingPostalCode</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>MailingCountry</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
@@ -160,50 +184,19 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Lookup_Timezone_from_Coordinates</targetReference>
+                <targetReference>Lookup_Timezone_from_Address</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>HttpStatusCode</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>inContactId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>inEpochSeconds</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-        <scale>0</scale>
-    </variables>
-    <variables>
-        <name>inLatitude</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-        <scale>6</scale>
-    </variables>
-    <variables>
-        <name>InLongitude</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-        <scale>6</scale>
     </variables>
     <variables>
         <name>varAddressTimezoneAbbreviation</name>

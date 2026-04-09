@@ -1,8 +1,8 @@
 {
   "packageDirectories": [
     {
-      "versionName": "ver 0.2",
-      "versionNumber": "0.2.0.NEXT",
+      "versionName": "ver 0.3",
+      "versionNumber": "0.3.0.NEXT",
       "path": "force-app",
       "default": true,
       "package": "Get User Timezone",
@@ -16,6 +16,7 @@
   "packageAliases": {
     "Get User Timezone": "0HoHu000000sivwKAA",
     "Get User Timezone@0.1.0-1": "04tHu000003yhPUIAY",
-    "Get User Timezone@0.2.0-1": "04tHu000003yhThIAI"
+    "Get User Timezone@0.2.0-1": "04tHu000003yhThIAI",
+    "Get User Timezone@0.3.0-1": "04tHu000003yhTmIAI"
   }
 }

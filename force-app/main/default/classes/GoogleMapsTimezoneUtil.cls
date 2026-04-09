@@ -25,7 +25,7 @@ public with sharing class GoogleMapsTimezoneUtil {
         String resolvedKey = resolveApiKey(apiKey);
         Long ts = epochSeconds != null ? epochSeconds : DateTime.now().getTime() / 1000;
         String endpoint =
-            'callout:TimeZoneApi/maps/api/timezone/json'
+            'https://maps.googleapis.com/maps/api/timezone/json'
             + '?location='
             + EncodingUtil.urlEncode(String.valueOf(latitude) + ',' + String.valueOf(longitude), 'UTF-8')
             + '&timestamp='
@@ -53,7 +53,7 @@ public with sharing class GoogleMapsTimezoneUtil {
         }
         String resolvedKey = resolveApiKey(apiKey);
         String geoEndpoint =
-            'callout:TimeZoneApi/maps/api/geocode/json'
+            'https://maps.googleapis.com/maps/api/geocode/json'
             + '?address='
             + EncodingUtil.urlEncode(address.trim(), 'UTF-8');
         if (!String.isBlank(resolvedKey)) {
